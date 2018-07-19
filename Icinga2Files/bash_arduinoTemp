@@ -1,0 +1,16 @@
+#!/bin/bash
+
+device=/dev/ttyACM0
+echo "temp1\n" > $device
+
+# Esto parece configurar algo
+#stty -F $device speed 9600 cs8 -cstopb -parenb
+
+ff=$'\xff'
+# Note: read 5 bytes. We night need to increase this
+# for below 0 temps or higher than 99.99
+# d: is the delimiter, this will avoid partial reads
+# t: timeout
+read -r -d $ff -n 5 -t 1 temp1 < $device
+
+echo "Temp1 is: $temp1"
